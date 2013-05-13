@@ -10,9 +10,9 @@ class window.AppView extends Backbone.View
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
 
-    #"stand": -> @model.get('dealerHand').checkScore()
-
-  initialize: -> @render()
+  initialize: ->
+    @render()
+    @model.on('newgame', => @render())
 
   render: ->
     @$el.children().detach()

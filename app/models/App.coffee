@@ -29,7 +29,8 @@ class window.App extends Backbone.Model
 
     else alert 'Dealer has better hand.  You lose'
 
-    #@initialize()
+    @initialize()
+    @trigger('newgame')
 
 
 
@@ -40,8 +41,13 @@ class window.App extends Backbone.Model
   playerLoses: ->
     alert 'You busted. Dealer wins'
     #new AppView(model: new App()).$el.appendTo 'body'
+    @initialize()
+    @trigger('newgame')
+
 
 
   dealerLoses: ->
     alert 'Dealer busted. You win'
     #new AppView(model: new App()).$el.appendTo 'body'
+    @initialize()
+    @trigger('newgame')
