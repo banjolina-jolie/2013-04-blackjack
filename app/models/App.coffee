@@ -2,7 +2,7 @@
 class window.App extends Backbone.Model
 
   initialize: ->
-    @set 'deck', deck = @get('deck') or new Deck() 
+    @set 'deck', deck = @get('deck') or new Deck()
     if deck.length < 12 then deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @get('playerHand').on 'stand', => @flipAndEval()
