@@ -16,10 +16,10 @@ class window.App extends Backbone.Model
   evalDealerScore: ->
     dealerScore = @get("dealerHand").scores()
 
-    if dealerScore[0] < 17
+    if dealerScore[1] < 18 or dealerScore[0] < 17
       @get('dealerHand').hit()
       @evalDealerScore()
-    else if dealerScore > 21
+    else if dealerScore[0] > 21
       @dealerLoses()
     else @evalWinner()
 
@@ -27,10 +27,20 @@ class window.App extends Backbone.Model
     playerScore = @get('playerHand').scores()
     dealerScore = @get('dealerHand').scores()
 
-    if playerScore[0] > dealerScore[0]
+    #set playerScore and dealerScore to their best score
+    if playerScore[1] < 21
+      playerScore = playerScore[1]
+    else playerScore = playerScore[0]
+
+    if dealerScore[1] < 21
+      dealerScore = dealerScore[1]
+    else dealerScore = dealerScore[0]
+
+
+    if playerScore > dealerScore
       alert 'You have the better hand. You win!'
 
-    else if playerScore[0] == dealerScore[0]
+    else if playerScore == dealerScore
       alert 'Equal scores. It\'s a push.'
 
     else alert 'Dealer has better hand.  You lose'
