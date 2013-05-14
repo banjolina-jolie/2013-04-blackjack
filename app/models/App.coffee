@@ -7,6 +7,7 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @get('playerHand').on 'stand', => @flipAndEval()
     @get('playerHand').on 'bust', => @playerLoses()
+    @get('playerHand').on 'blackjack', => @playerBlackjack()
     @set 'dealerHand', deck.dealDealer()
     @set 'numHands', @get('numHands') or 0
 
@@ -42,6 +43,10 @@ class window.App extends Backbone.Model
   dealerLoses: ->
     alert 'Dealer busted. You win'
     @nextHand()
+
+  playerBlackjack: ->
+  alert 'blackJack'
+  @nextHand()
 
   nextHand: ->
     @set 'numHands', (@get('numHands') + 1)
