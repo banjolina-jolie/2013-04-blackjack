@@ -7,6 +7,8 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @get('playerHand').on 'stand', => @flipAndEval()
     @get('playerHand').on 'bust', => @playerLoses()
+    @get('playerHand').on '21', => @playerBlackjack()
+
     @get('playerHand').on 'blackjack', => @playerBlackjack()
     @set 'dealerHand', deck.dealDealer()
     @set 'numHands', @get('numHands') or 0
@@ -27,6 +29,9 @@ class window.App extends Backbone.Model
 
     if playerScore[0] > dealerScore[0]
       alert 'You have the better hand. You win!'
+
+    else if playerScore[0] == dealerScore[0]
+      alert 'Equal scores. It\'s a push.'
 
     else alert 'Dealer has better hand.  You lose'
 

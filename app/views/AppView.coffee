@@ -22,4 +22,3 @@ class window.AppView extends Backbone.View
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
     @$('.counter-container').html @model.get 'numHands'
 
-    console.log(@model.get 'numHands')
