@@ -6,9 +6,8 @@ class window.App extends Backbone.Model
     @set 'playerHand', deck.dealPlayer()
     @get('playerHand').on 'stand', => @flipAndEval()
     @get('playerHand').on 'bust', => @playerLoses()
-
     @set 'dealerHand', deck.dealDealer()
-
+    @set 'numHands', @get('numHands') or 0
 
   evalDealerScore: ->
     dealerScore = @get("dealerHand").scores()
@@ -29,10 +28,7 @@ class window.App extends Backbone.Model
 
     else alert 'Dealer has better hand.  You lose'
 
-    @initialize()
-    @trigger('newgame')
-
-
+    @nextHand()
 
   flipAndEval: ->
     @get('dealerHand').at(0).flip()
@@ -40,14 +36,13 @@ class window.App extends Backbone.Model
 
   playerLoses: ->
     alert 'You busted. Dealer wins'
-    #new AppView(model: new App()).$el.appendTo 'body'
-    @initialize()
-    @trigger('newgame')
-
-
+    @nextHand()
 
   dealerLoses: ->
     alert 'Dealer busted. You win'
-    #new AppView(model: new App()).$el.appendTo 'body'
+    @nextHand()
+
+  nextHand: ->
+    @set 'numHands', (@get('numHands') + 1)
     @initialize()
     @trigger('newgame')
