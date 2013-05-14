@@ -19,7 +19,6 @@ class window.Hand extends Backbone.Collection
       score + if card.get 'revealed' then card.get 'value' else 0
     , 0
     if score > 21 then @trigger 'bust'
-    debugger;
     if score == 21 then @trigger 'blackjack'
     if hasAce then [score, score + 10] else [score]
 

@@ -15,12 +15,7 @@ describe 'hand', ->
 
 
     it "should bust after score is greater than 21", ->
-      hand.hit()
-      hand.hit()
-      hand.hit()
-      hand.hit()
-      hand.hit()
-      hand.hit()
-      hand.hit()
-      hand.hit()
-      expect(hand.trigger).toHaveBeenCalled()
+      while hand.scores()[0] < 21
+        hand.hit()
+        
+      expect(hand.trigger.mostRecentCall.args[0]).toEqual('bust')
