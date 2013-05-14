@@ -8,7 +8,6 @@ class window.App extends Backbone.Model
     @get('playerHand').on 'stand', => @flipAndEval()
     @get('playerHand').on 'bust', => @playerLoses()
     @get('playerHand').on '21', => @playerBlackjack()
-
     @get('playerHand').on 'blackjack', => @playerBlackjack()
     @set 'dealerHand', deck.dealDealer()
     @set 'numHands', @get('numHands') or 0
