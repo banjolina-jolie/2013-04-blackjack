@@ -15,7 +15,7 @@ class window.HandView extends Backbone.View
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
     myScores =  @collection.scores()
-    if myScores[1]
+    if myScores[1] and @collection.at(0).get 'revealed'
       @$('.score').text myScores[1] + " or " + myScores[0]
     else
       @$('.score').text myScores[0]
