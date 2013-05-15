@@ -1,7 +1,7 @@
-  #todo: refactor to have a game beneath the outer blackjack model
 class window.App extends Backbone.Model
 
   initialize: ->
+    @set 'chipCount', bank = @get('bank') or new Bank()
     @set 'deck', deck = @get('deck') or new Deck()
     if deck.length < 12 then deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
@@ -11,6 +11,14 @@ class window.App extends Backbone.Model
     @get('playerHand').on 'blackjack', => @playerBlackjack()
     @set 'dealerHand', deck.dealDealer()
     @set 'numHands', @get('numHands') or 0
+    # @on 'addBet', =>
+    #   console.log 'yolo'
+    #   bank.add(@get('valueOfBet'))
+    #   @set 'chipCount', @get('bank')
+    # @on 'subtractBet', =>
+    #   console.log 'lose'
+    #   bank.subtract(@get('valueOfBet'))
+    #   @set 'chipCount', @get('bank')
 
   evalDealerScore: ->
     dealerScore = @get("dealerHand").scores()
@@ -52,17 +60,25 @@ class window.App extends Backbone.Model
 
   playerLoses: ->
     alert 'You busted. Dealer wins'
+    @trigger 'subtractBet'
     @nextHand()
 
   dealerLoses: ->
     alert 'Dealer busted. You win'
+    @trigger 'addBet'
     @nextHand()
 
   playerBlackjack: ->
     alert 'blackJack'
+    @trigger 'addBet'
     @nextHand()
 
   nextHand: ->
-    @set 'numHands', (@get('numHands') + 1)
+    #@set 'chipCount', @get('chipCount') + @get('valueOfBet')
+    @set 'numHands', @get('numHands') + 1
+    @set 'chipCount', @get('chipCount') + @get('valueOfBet')
     @initialize()
-    @trigger('newgame')
+    @trigger 'newgame'
+
+
+

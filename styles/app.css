@@ -14,3 +14,7 @@
 .hand {
   overflow: auto;
 }
+
+.counter-container {
+  margin-left: 220px;
+}
