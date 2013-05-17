@@ -11,14 +11,14 @@ class window.App extends Backbone.Model
     @get('playerHand').on 'blackjack', => @playerBlackjack()
     @set 'dealerHand', deck.dealDealer()
     @set 'numHands', @get('numHands') or 0
-    # @on 'addBet', =>
-    #   console.log 'yolo'
-    #   bank.add(@get('valueOfBet'))
-    #   @set 'chipCount', @get('bank')
-    # @on 'subtractBet', =>
-    #   console.log 'lose'
-    #   bank.subtract(@get('valueOfBet'))
-    #   @set 'chipCount', @get('bank')
+    @on 'addBet', =>
+      console.log 'yolo'
+      bank.add(@get('valueOfBet'))
+      @set 'chipCount', @get('bank')
+    @on 'subtractBet', =>
+      console.log 'lose'
+      bank.subtract(@get('valueOfBet'))
+      @set 'chipCount', @get('bank')
 
   evalDealerScore: ->
     dealerScore = @get("dealerHand").scores()
