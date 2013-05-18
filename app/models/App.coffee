@@ -9,12 +9,13 @@ class window.App extends Backbone.Model
     @get('playerHand').on 'blackjack', => @playerBlackjack()
     @set 'dealerHand', deck.dealDealer()
     @set 'numHands', @get('numHands') or 0
+    @set 'valueOfBet', 0
     @set 'bank', bank = @get('bank') or new Bank()
     @on 'addBet', =>
       @get('bank').add(@get('valueOfBet'))
       @set 'bank', @get('bank')
     @on 'subtractBet', =>
-      bank.subtract(@get('valueOfBet'))
+      @get('bank').subtract(@get('valueOfBet'))
       @set 'bank', @get('bank')
 
   evalDealerScore: ->
@@ -66,14 +67,12 @@ class window.App extends Backbone.Model
     @nextHand()
 
   playerBlackjack: ->
-    alert 'blackJack'
+    alert 'blackJack. nice.'
     @trigger 'addBet'
     @nextHand()
 
   nextHand: ->
-    #@set 'bank', @get('bank') + @get('valueOfBet')
     @set 'numHands', @get('numHands') + 1
-    #@set 'bank', @get('bank').value + @get('valueOfBet')
     @initialize()
     @trigger 'newgame'
 

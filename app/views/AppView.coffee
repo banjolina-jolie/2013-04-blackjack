@@ -10,7 +10,6 @@ class window.AppView extends Backbone.View
   events:
     "click .hit-button": -> @model.get('playerHand').hit()
     "click .stand-button": -> @model.get('playerHand').stand()
-      #console.log @model.get 'valueOfBet'
 
   initialize: ->
     @render()
@@ -19,7 +18,8 @@ class window.AppView extends Backbone.View
   render: ->
     console.log('AppView rendering', @model.get('bank').value)
     @$el.children().detach()
-    @model.set 'valueOfBet', parseInt(prompt "How much you wanna bet?", "0")
+    @model.set 'valueOfBet', 0
+    @model.set 'valueOfBet', Number(prompt "How much you wanna bet?", "0")
     @$el.html @template()
     @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
     @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el

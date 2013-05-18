@@ -7,8 +7,6 @@ class window.Bank extends Backbone.Model
 
   add: (amount) =>
     @value = @value + Number(amount)
-    console.log(@value)
 
   subtract: (amount) =>
     @value = @value - Number(amount)
-    console.log(@value)
