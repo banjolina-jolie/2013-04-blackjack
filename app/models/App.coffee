@@ -1,24 +1,21 @@
 class window.App extends Backbone.Model
 
   initialize: ->
-    @set 'chipCount', bank = @get('bank') or new Bank()
     @set 'deck', deck = @get('deck') or new Deck()
     if deck.length < 12 then deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @get('playerHand').on 'stand', => @flipAndEval()
     @get('playerHand').on 'bust', => @playerLoses()
-    @get('playerHand').on '21', => @playerBlackjack()
     @get('playerHand').on 'blackjack', => @playerBlackjack()
     @set 'dealerHand', deck.dealDealer()
     @set 'numHands', @get('numHands') or 0
+    @set 'bank', bank = @get('bank') or new Bank()
     @on 'addBet', =>
-      console.log 'yolo'
-      bank.add(@get('valueOfBet'))
-      @set 'chipCount', @get('bank')
+      @get('bank').add(@get('valueOfBet'))
+      @set 'bank', @get('bank')
     @on 'subtractBet', =>
-      console.log 'lose'
       bank.subtract(@get('valueOfBet'))
-      @set 'chipCount', @get('bank')
+      @set 'bank', @get('bank')
 
   evalDealerScore: ->
     dealerScore = @get("dealerHand").scores()
@@ -74,9 +71,9 @@ class window.App extends Backbone.Model
     @nextHand()
 
   nextHand: ->
-    #@set 'chipCount', @get('chipCount') + @get('valueOfBet')
+    #@set 'bank', @get('bank') + @get('valueOfBet')
     @set 'numHands', @get('numHands') + 1
-    @set 'chipCount', @get('chipCount') + @get('valueOfBet')
+    #@set 'bank', @get('bank').value + @get('valueOfBet')
     @initialize()
     @trigger 'newgame'
 
