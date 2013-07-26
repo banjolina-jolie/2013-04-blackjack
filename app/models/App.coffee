@@ -1,22 +1,19 @@
 class window.App extends Backbone.Model
 
   initialize: ->
-    @set 'deck', deck = @get('deck') or new Deck()
-    if deck.length < 12 then deck = new Deck()
+    @set 'deck', deck = new Deck()
+    @set 'numHands', @get('numHands') or 0
+    @set 'bank', new Bank()
+    #if deck.length < 12 then deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @get('playerHand').on 'stand', => @flipAndEval()
     @get('playerHand').on 'bust', => @playerLoses()
     @get('playerHand').on 'blackjack', => @playerBlackjack()
     @set 'dealerHand', deck.dealDealer()
-    @set 'numHands', @get('numHands') or 0
-    @set 'valueOfBet', 0
-    @set 'bank', bank = @get('bank') or new Bank()
     @on 'addBet', =>
       @get('bank').add(@get('valueOfBet'))
-      @set 'bank', @get('bank')
     @on 'subtractBet', =>
       @get('bank').subtract(@get('valueOfBet'))
-      @set 'bank', @get('bank')
 
   evalDealerScore: ->
     dealerScore = @get("dealerHand").scores()
@@ -41,15 +38,18 @@ class window.App extends Backbone.Model
       dealerScore = dealerScore[1]
     else dealerScore = dealerScore[0]
 
-
     if playerScore > dealerScore
       alert 'You have the better hand. You win!'
+      @trigger 'addBet'
 
     else if playerScore == dealerScore
       alert 'Equal scores. It\'s a push.'
 
-    else alert 'Dealer has better hand.  You lose'
+    else
+      alert 'Dealer has better hand.  You lose'
+      @trigger 'subtractBet'
 
+    @set 'valueOfBet', 0
     @nextHand()
 
   flipAndEval: ->
@@ -72,9 +72,12 @@ class window.App extends Backbone.Model
     @nextHand()
 
   nextHand: ->
+    # @off(['addBet', 'subtractBet'])
     @set 'numHands', @get('numHands') + 1
-    @initialize()
+    @set 'deck', deck = new Deck()
+    @set 'playerHand', deck.dealPlayer()
+    @set 'dealerHand', deck.dealDealer()
+    @get('playerHand').on 'stand', => @flipAndEval()
+    @get('playerHand').on 'bust', => @playerLoses()
+    @get('playerHand').on 'blackjack', => @playerBlackjack()
     @trigger 'newgame'
-
-
-
